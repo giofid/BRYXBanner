@@ -229,6 +229,7 @@ open class Banner: UIView {
     }
   
     private var contentTopOffsetConstraint: NSLayoutConstraint!
+    private var contentBottomOffsetConstraint: NSLayoutConstraint!
     private var minimumHeightConstraint: NSLayoutConstraint!
   
     private func initializeSubviews() {
@@ -252,9 +253,10 @@ open class Banner: UIView {
         labelView.addSubview(titleLabel)
         labelView.addSubview(detailLabel)
         backgroundView.addConstraints(NSLayoutConstraint.defaultConstraintsWithVisualFormat("H:|[contentView]|", views: views))
-        backgroundView.addConstraint(contentView.constraintWithAttribute(.bottom, .equal, to: .bottom, of: backgroundView))
         contentTopOffsetConstraint = contentView.constraintWithAttribute(.top, .equal, to: .top, of: backgroundView)
+        contentBottomOffsetConstraint = contentView.constraintWithAttribute(.bottom, .equal, to: .bottom, of: backgroundView)
         backgroundView.addConstraint(contentTopOffsetConstraint)
+        backgroundView.addConstraint(contentBottomOffsetConstraint)
         let leftConstraintText: String
         if image == nil {
             leftConstraintText = "|"
@@ -317,9 +319,11 @@ open class Banner: UIView {
         let statusBarSize = UIApplication.shared.statusBarFrame.size
         let heightOffset = min(statusBarSize.height, statusBarSize.width) // Arbitrary, but looks nice.
         contentTopOffsetConstraint.constant = heightOffset
+        contentBottomOffsetConstraint.constant = 0
         minimumHeightConstraint.constant = statusBarSize.height > 0 ? 64 : 40
       } else {
-        contentTopOffsetConstraint.constant = 0
+        contentTopOffsetConstraint.constant = 10
+        contentBottomOffsetConstraint.constant = -10
         minimumHeightConstraint.constant = 0
       }
     }
