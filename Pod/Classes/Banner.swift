@@ -242,7 +242,7 @@ open class Banner: UIView {
         ]
         translatesAutoresizingMaskIntoConstraints = false
         addSubview(backgroundView)
-        minimumHeightConstraint = backgroundView.constraintWithAttribute(.height, .greaterThanOrEqual, to: 80)
+        minimumHeightConstraint = backgroundView.constraintWithAttribute(.height, .greaterThanOrEqual, to: 64)
         addConstraint(minimumHeightConstraint) // Arbitrary, but looks nice.
         addConstraints(backgroundView.constraintsEqualToSuperview())
         backgroundView.backgroundColor = backgroundColor
@@ -269,14 +269,14 @@ open class Banner: UIView {
         let constraintFormat = "H:\(leftConstraintText)-(15)-[labelView]-(8)-|"
         contentView.translatesAutoresizingMaskIntoConstraints = false
         contentView.addConstraints(NSLayoutConstraint.defaultConstraintsWithVisualFormat(constraintFormat, views: views))
-        contentView.addConstraints(NSLayoutConstraint.defaultConstraintsWithVisualFormat("V:|-(>=1)-[labelView]-(>=1)-|", views: views))
+        contentView.addConstraints(NSLayoutConstraint.defaultConstraintsWithVisualFormat("V:|-(==1)-[labelView]-(==1)-|", views: views))
         backgroundView.addConstraints(NSLayoutConstraint.defaultConstraintsWithVisualFormat("H:|[contentView]-(<=1)-[labelView]", options: .alignAllCenterY, views: views))
         
         for view in [titleLabel, detailLabel] {
             let constraintFormat = "H:|[label]-(8)-|"
             contentView.addConstraints(NSLayoutConstraint.defaultConstraintsWithVisualFormat(constraintFormat, options: NSLayoutFormatOptions(), metrics: nil, views: ["label": view]))
         }
-        labelView.addConstraints(NSLayoutConstraint.defaultConstraintsWithVisualFormat("V:|-(10)-[titleLabel][detailLabel]-(10)-|", views: views))
+        labelView.addConstraints(NSLayoutConstraint.defaultConstraintsWithVisualFormat("V:|-(0)-[titleLabel][detailLabel]-(0)-|", views: views))
     }
     
     required public init?(coder aDecoder: NSCoder) {
@@ -317,7 +317,7 @@ open class Banner: UIView {
         let statusBarSize = UIApplication.shared.statusBarFrame.size
         let heightOffset = min(statusBarSize.height, statusBarSize.width) // Arbitrary, but looks nice.
         contentTopOffsetConstraint.constant = heightOffset
-        minimumHeightConstraint.constant = statusBarSize.height > 0 ? 80 : 40
+        minimumHeightConstraint.constant = statusBarSize.height > 0 ? 64 : 40
       } else {
         contentTopOffsetConstraint.constant = 0
         minimumHeightConstraint.constant = 0
